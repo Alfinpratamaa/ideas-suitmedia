@@ -14,7 +14,7 @@ const Banner: React.FC = () => {
     useEffect(() => {
       const fetchBannerData = async () => {
           try {
-              const bannerData = await client.fetch(`*[_type == "banner"][0]{
+              const bannerData = await client.fetch(`*[_type == "banner"] | order(publishedAt desc)[0]{
           title,
           description,
           image
