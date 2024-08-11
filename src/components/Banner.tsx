@@ -1,4 +1,3 @@
-// components/Banner.tsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -62,15 +61,23 @@ const Banner: React.FC = () => {
             className="relative h-[400px] bg-cover bg-center flex items-center justify-center text-center"
             style={{ backgroundImage: `url(${backgroundImage})`, backgroundClip: 'content-box' }}
         >
+            {/* Overlay for dimming effect */}
+            <div
+                className="absolute inset-0 bg-black opacity-50 z-10"
+                style={{ backgroundClip: 'content-box' }}
+            />
+
+            {/* Text container */}
             <div
                 ref={textRef}
-                className="absolute inset-0 flex flex-col items-center justify-center bg-transparent  transition-transform"
+                className="relative z-20 flex flex-col items-center justify-center bg-transparent transition-transform"
             >
                 <h1 className="text-4xl text-white">{title}</h1>
-                <p className="text-lg text-white text-center w-[520px]">{description}</p>
+                <p className="text-lg text-white text-center w-[500px]">{description}</p>
             </div>
+
             <div
-                className="absolute bottom-0 left-0 w-full h-28 bg-white z-20"
+                className="absolute bottom-0 left-0 w-full h-28 bg-white z-30"
                 style={{
                     clipPath: 'polygon(0 100%, 100% 100%, 100% 0)',
                 }}
