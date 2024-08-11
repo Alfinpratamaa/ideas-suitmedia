@@ -44,7 +44,8 @@ const Header: React.FC = () => {
             className={clsx(
                 'fixed w-full top-0 z-50 bg-primary transition-transform duration-300 ease-in-out',
                 isVisible ? 'translate-y-0' : '-translate-y-full',
-                isTransparent ? 'bg-opacity-55' : 'bg-opacity-100'
+                isTransparent ? 'bg-opacity-25' : 'bg-opacity-100'
+            
             )}
         >
             <nav className="flex justify-between items-center p-4">
