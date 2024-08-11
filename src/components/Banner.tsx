@@ -67,7 +67,7 @@ const Banner: React.FC = () => {
                 className="absolute inset-0 flex flex-col items-center justify-center bg-transparent  transition-transform"
             >
                 <h1 className="text-4xl text-white">{title}</h1>
-                <p className="text-lg text-white">{description}</p>
+                <p className="text-lg text-white text-center w-[520px]">{description}</p>
             </div>
             <div
                 className="absolute bottom-0 left-0 w-full h-28 bg-white z-20"
