@@ -1,7 +1,8 @@
-'use client';
+'use client'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostCard from './PostCard';
+import { usePostStore } from '@/lib/usePostStore'; // Import the Zustand store
 
 interface Image {
     id: number;
@@ -19,25 +20,34 @@ interface Post {
 }
 
 const PostList: React.FC = () => {
+    const { sort, pageSize, pageNumber, setSort, setPageSize, setPageNumber } = usePostStore(state => ({
+        sort: state.sort,
+        pageSize: state.pageSize,
+        pageNumber: state.pageNumber,
+        setSort: state.setSort,
+        setPageSize: state.setPageSize,
+        setPageNumber: state.setPageNumber
+    }));
+
     const [posts, setPosts] = useState<Post[]>([]);
-    const [sort, setSort] = useState<'published_at' | '-published_at'>('-published_at');
-    const [pageSize, setPageSize] = useState<number>(10);
-    const [pageNumber, setPageNumber] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [postNumber, setPostNumber] = useState<any>(1);
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const sortParam = urlParams.get('sort');
-        const pageSizeParam = urlParams.get('pageSize');
-        const pageNumberParam = urlParams.get('pageNumber');
+        const savedSort = sessionStorage.getItem('sort');
+        const savedPageSize = sessionStorage.getItem('pageSize');
+        const savedPageNumber = sessionStorage.getItem('pageNumber');
 
-        if (sortParam) setSort(sortParam as typeof sort);
-        if (pageSizeParam) setPageSize(parseInt(pageSizeParam));
-        if (pageNumberParam) setPageNumber(parseInt(pageNumberParam));
-    }, []);
+        if (savedSort) setSort(savedSort as typeof sort);
+        if (savedPageSize) setPageSize(parseInt(savedPageSize));
+        if (savedPageNumber) setPageNumber(parseInt(savedPageNumber));
+    }, [setSort, setPageSize, setPageNumber]);
 
     useEffect(() => {
+        sessionStorage.setItem('sort', sort);
+        sessionStorage.setItem('pageSize', pageSize.toString());
+        sessionStorage.setItem('pageNumber', pageNumber.toString());
+
         const urlParams = new URLSearchParams();
         urlParams.set('sort', sort);
         urlParams.set('pageSize', pageSize.toString());
@@ -54,7 +64,6 @@ const PostList: React.FC = () => {
                         sort: sort,
                     },
                 });
-                console.log('Fetched posts:', response.data);
                 setPosts(response.data.data);
                 setTotalPages(response.data.meta.last_page);
                 setPostNumber(response.data.meta);
@@ -72,7 +81,6 @@ const PostList: React.FC = () => {
     let startPage = Math.max(1, pageNumber - halfRange);
     let endPage = Math.min(totalPages, pageNumber + halfRange);
 
-    // Adjust start and end pages if they are at the boundaries
     if (pageNumber <= halfRange) {
         endPage = Math.min(maxPagesToShow, totalPages);
     }
