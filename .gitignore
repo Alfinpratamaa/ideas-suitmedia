@@ -13,6 +13,8 @@
 /.next/
 /out/
 
+bun.lockb
+
 # production
 /build
 
