@@ -14,11 +14,15 @@ const Banner: React.FC = () => {
     useEffect(() => {
       const fetchBannerData = async () => {
           try {
-              const bannerData = await client.fetch(`*[_type == "banner"] | order(publishedAt desc)[0]{
-          title,
-          description,
-          image
-        }`);
+             const bannerData = await client.fetch(`
+  *[_type == "banner"] | order(publishedDate desc)[0] {
+    title,
+    description,
+    image
+  }
+`);
+
+              
 
               if (bannerData) {
                   setTitle(bannerData.title || '');
