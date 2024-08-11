@@ -3,15 +3,16 @@ import Image from 'next/image';
 const PostCard: React.FC<any> = ({ post }) => {
     const { title, medium_image, published_at } = post;
 
-    const placeholderSrc = '/image/placeholder.png';
+    const randomImageSrc = `https://picsum.photos/seed/${Math.random()}/800/600`;
 
-    const src = medium_image[0].url ? medium_image[0].url : placeholderSrc;
+    // tidak bisa dipake karna url image forbbiden
+    const srcImage = medium_image[0]?.url || randomImageSrc;
 
     return (
         <div className="border py-4 px-8 rounded shadow-lg">
             <div className="relative w-full h-0" style={{ paddingBottom: '75%' }}>
                 <Image
-                    src={placeholderSrc}
+                    src={randomImageSrc}
                     alt={title}
                     fill
                     style={{ objectFit: 'cover' }}
@@ -25,7 +26,7 @@ const PostCard: React.FC<any> = ({ post }) => {
                     year: 'numeric'
                 })}
             </p>
-            <h2 className=" text-lg font-bold line-clamp-3">{title}</h2>
+            <h2 className="text-lg font-bold line-clamp-3">{title}</h2>
         </div>
     );
 };
